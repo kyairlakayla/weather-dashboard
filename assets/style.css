@@ -18,3 +18,22 @@
 #search-btn {
     width: 30%;
 }
+
+/* UV coloring scheme for UV display */
+.uv-favorable{
+    background-color: green;
+    border-radius: 5px;
+    color: white;
+}
+
+.uv-moderate{
+    background-color: orange;
+    border-radius: 5px;
+    color: white;
+}
+
+.uv-severe{
+    background-color: red;
+    border-radius: 5px;
+    color: white;
+}
