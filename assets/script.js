@@ -14,6 +14,8 @@ var getCurrentWeather = (event) => {
         return response.json();
     })
     .then((response) => {
+        // call 5-day forecast function
+//        fiveDayForecast(event);
         // create html for current city 
         let currentWeatherHTML = `
         <h3>${response.name} 
@@ -47,6 +49,34 @@ var getCurrentWeather = (event) => {
     })
 }
 
+var fiveDayForecast = (event) => {
+    let city = $('#search-city').val();
+    let queryUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city +"&units=imperial&appid=" + appKey;
+    fetch(queryUrl)
+        .then((response) => {
+            return response.json();
+        }).then((response) => {
+            let fiveDayForecastHTML = `
+            <h3> 5-Day Forecast </h3>
+            <div id="fiveDayForecastUl" class="d-inline-flex flex-wrap "></div>`;
+                // Loop over 5-day forecast 
+                for (let i =0; i < response.list.length; i++) {
+                    let dayData = response.list[i];
+                    let date = dayData.dt;
+                    let iconUrl = "https://openweathermap.org/img/w/" + dayData.weather[0].icon + ".png";
+                    fiveDayForecastHTML += `
+                    <div class="weather-card card m-2 p0">
+                        <ul class="list-unstyled p-3">
+                            <li class="weather-icon"><img src="${iconUrl}></li>
+                            <li>Temp: ${response.daily.temp}&#8457;</li>
+                        </ul>
+                    </div>`;
+                }
+            fiveDayForecastHTML += `</div>`
+            $('#five-day-forecast').html(fiveDayForecastHTML);
+        })
+}
+
 // City search event listner 
 $('#search-btn').on("click", (event) => {
     event.preventDefault();
@@ -55,3 +85,4 @@ $('#search-btn').on("click", (event) => {
 });
 
 getCurrentWeather();
+fiveDayForecast();
